@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -11,17 +11,21 @@ namespace Notebook
     {
 
         private static Entities.Notebook _notebook = new();
+        
         static void Main(string[] args)
         {
             string command;
             bool isRunning = true;
+            
             PrintUsage();
 
             while (isRunning)
             {
                 Console.Write(">> ");
+                
                 command = Console.ReadLine();
                 int id;
+                
                 string[] tokens = Regex.Split(command, @"\s+");
 
                 switch (tokens[0])
@@ -125,7 +129,7 @@ namespace Notebook
             Console.WriteLine("\tdelete <id> - deletes existing note");
             Console.WriteLine("\texit        - logout");
         }
-
+        
         private static void PrintNote(Note note)
         {
             Console.WriteLine($"Name:        {note.Name}");
@@ -138,6 +142,7 @@ namespace Notebook
             Console.WriteLine($"Birthday:    {note.Birthday}");
             Console.WriteLine($"Other:       {note.Other}");
         }
+        
         private static Note EditNote(Note note = null)
         {
             string name;
