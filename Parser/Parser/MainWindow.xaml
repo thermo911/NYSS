@@ -1,0 +1,44 @@
+﻿<Window x:Class="Parser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Parser"
+        xmlns:col="clr-namespace:System.Collections;assembly=System"
+        xmlns:ent="clr-namespace:Parser.Entities"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+        xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
+        mc:Ignorable="d"
+        Title="Угрозы безопасности"
+        Height="450" 
+        Width="780" 
+        Visibility="Visible">
+
+    <Grid x:Name="MainGrid">
+        <Menu Height="30" VerticalAlignment="Top">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Header="Загрузить" ToolTip="Загрузить файл из сети Интернет" Click="MenuItem_DownloadFile_Click"/>
+            <MenuItem Header="Обновить" ToolTip="Обновить текущий файл через Интернет"/>
+        </Menu>
+
+        <ListBox Name="ListBox"
+                 VerticalAlignment="Stretch" 
+                 Margin="10,30,10,10" 
+                 MouseDoubleClick="ListBox_DoubleClick">
+        </ListBox>
+
+        <Menu Height="30" VerticalAlignment="Bottom">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Right"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Header="Назад" ToolTip="Предыдущая страница" Click="PrevPage_Click"/>
+            <MenuItem Header="Далее" ToolTip="Стедующаа страница" Click="NextPage_Click"/>
+        </Menu>
+    </Grid>
+</Window>
