@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Windows;
+using Parser.Exceptions;
 
 namespace Parser.Services
 {
@@ -31,9 +32,7 @@ namespace Parser.Services
             }
             catch (Exception)
             {
-                string message = "Проверьте подключение к сети Интернет";
-                string caption = "Ошибка загрузки";
-                MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+                throw new LoadingException("Ошибка при скачивании файла!");
             }
         }
     }

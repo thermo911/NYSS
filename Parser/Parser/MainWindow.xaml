@@ -16,13 +16,13 @@
 
     <Grid x:Name="MainGrid">
         <Menu Height="30" VerticalAlignment="Top">
-            <Menu.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <DockPanel HorizontalAlignment="Stretch"/>
-                </ItemsPanelTemplate>
-            </Menu.ItemsPanel>
-            <MenuItem Header="Загрузить" ToolTip="Загрузить файл из сети Интернет" Click="MenuItem_DownloadFile_Click"/>
-            <MenuItem Header="Обновить" ToolTip="Обновить текущий файл через Интернет"/>
+            <MenuItem Header="Загрузить" 
+                      ToolTip="Загрузить файл из сети Интернет" 
+                      Click="MenuItem_DownloadFile_Click"/>
+            <MenuItem Name="UpdateBtn" 
+                      Header="Обновить" 
+                      ToolTip="Обновить текущий файл через Интернет"
+                      Click="MenuItem_Update_Click"/>
         </Menu>
 
         <ListBox Name="ListBox"
@@ -38,7 +38,7 @@
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
             <MenuItem Header="Назад" ToolTip="Предыдущая страница" Click="PrevPage_Click"/>
-            <MenuItem Header="Далее" ToolTip="Стедующаа страница" Click="NextPage_Click"/>
+            <MenuItem Header="Далее" ToolTip="Следующая страница" Click="NextPage_Click"/>
         </Menu>
     </Grid>
 </Window>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Parser.Entities
 {
-    public class CyberDangerInfo
+    public class CyberDangerInfo : IEquatable<CyberDangerInfo>
     {
         public int Id { get; set; }
 
@@ -21,7 +21,9 @@ namespace Parser.Entities
         public bool ConfidentialityViolation { get; set; }
 
         public bool IntegrityViolation { get; set; }
+
         public bool AvailabilityViolation { get; set; }
+
         public static Builder BuildNew() => new Builder();
 
         public override string ToString()
@@ -103,6 +105,33 @@ namespace Parser.Entities
                 };
             }
 
+        }
+
+        public bool Equals(CyberDangerInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Id == other.Id && 
+                   Name == other.Name && 
+                   Description == other.Description && 
+                   Source == other.Source && 
+                   Target == other.Target && 
+                   ConfidentialityViolation == other.ConfidentialityViolation && 
+                   IntegrityViolation == other.IntegrityViolation && 
+                   AvailabilityViolation == other.AvailabilityViolation;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((CyberDangerInfo) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name, Description, Source, Target, ConfidentialityViolation, IntegrityViolation, AvailabilityViolation);
         }
     }
 }

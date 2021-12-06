@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using Parser.Entities;
+using Parser.Exceptions;
 using Parser.Services;
 
 namespace Parser
@@ -48,6 +49,11 @@ namespace Parser
 
                 if (_infos.Count % _maxItemsPerPage > 0 || _pagesCount == 0)
                     _pagesCount++;
+
+                CurPageNumber = 0;
+                ListBox.ItemsSource = GetPageList();
+
+                UpdateBtn.IsEnabled = true;
             }
         }
 
@@ -60,6 +66,7 @@ namespace Parser
         public MainWindow()
         {
             InitializeComponent();
+            UpdateBtn.IsEnabled = false;
             this.Loaded += OnLoaded;
         }
 
@@ -67,8 +74,20 @@ namespace Parser
         {
             if (_dataLoader.FileExists())
             {
-                Infos = _parser.ParseXslx();
-                ListBox.ItemsSource = GetPageList();
+                try
+                {
+                    Infos = _parser.ParseXslx();
+                    ListBox.ItemsSource = GetPageList();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show(
+                        "Формат текущего файла некорректный. " +
+                        "Нажмите Загрузить, чтобы загрузить новый файл.",
+                        "Ошибка при обработке файла",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
             }
             else
             {
@@ -86,13 +105,31 @@ namespace Parser
         private void MenuItem_DownloadFile_Click(object sender, RoutedEventArgs e)
         {
             string title = this.Title;
-
             this.Title += " [Загрузка данных...]";
-            _dataLoader.LoadFile();
-            this.Title = title;
 
-            Infos = _parser.ParseXslx();
-            ListBox.ItemsSource = Infos;
+            try
+            {
+                _dataLoader.LoadFile();
+                Infos = _parser.ParseXslx();
+            }
+            catch (LoadingException loadExc)
+            {
+                MessageBox.Show(
+                    loadExc.Message,
+                    "Ошибка загрузки",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            catch (ParsingException parseExc)
+            {
+                MessageBox.Show(
+                    parseExc.Message,
+                    "Ошибка парсинга файла",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+
+            this.Title = title;
         }
 
         private void ListBox_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -124,6 +161,26 @@ namespace Parser
         {
             CurPageNumber--;
             ListBox.ItemsSource = GetPageList();
+        }
+
+        private void MenuItem_Update_Click(object sender, RoutedEventArgs e)
+        {
+            File.Delete(WorkingFilePath);
+            _dataLoader.LoadFile();
+            List<CyberDangerInfo> newInfos = _parser.ParseXslx();
+
+            List<CyberDangerInfo> diff = newInfos.Except(Infos).ToList();
+            Infos = newInfos;
+
+            if (diff.Count > 0)
+            {
+                var diffWindow = new DiffWindow(diff);
+                diffWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Записи совпадают с источником!");
+            }
         }
     }
 }

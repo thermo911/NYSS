@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using OfficeOpenXml;
 using Parser.Entities;
+using Parser.Exceptions;
 
 namespace Parser.Services
 {
@@ -56,10 +57,8 @@ namespace Parser.Services
             }
             catch (Exception e)
             {
-                MessageBox.Show("ОШИБКА!", String.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
+                throw new ParsingException("Неправильный формат данных!");
             }
-
-            MessageBox.Show($"Обнаружено записей: {infos.Count}");
 
             return infos;
         }
