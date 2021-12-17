@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Encryption & decryption";
+}
+
+<style>
+    .center {
+        position:absolute;
+        top:50%;
+        left:50%;
+        padding:10px;
+        -ms-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+</style>
+
+<script>
+    function validateForm() {
+        var key = $("#key").val();
+        var lang = $("#lang_select").val();
+
+        if (lang === "EN" && !/^[a-zA-Z]+$/.test(key)) {
+            alert("Key must contain only letters from English alphabet");
+            return false;
+        } else if (lang === "RU" && !/^[а-яё]+$/i.test(key)) {
+            alert("Key must contain only letters from Russian alphabet");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+<div class="center">
+
+    <div class="container">
+        <h3 class="display-4">Choose file!</h3>
+
+        <form method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
+
+            <div class="form-group">
+                <input class="form-inline form-control-file"
+                       id="file_input"
+                       name="file"
+                       required="required"
+                       type="file"
+                       accept=".txt,.docx" />
+
+            </div>
+
+            <div class="form-group">
+                <label for="key" class="align-content-start">Enter cipher key:</label>
+                <input class="form-control"
+                       type="text"
+                       name="cipherKey"
+                       id="key"
+                       required="required" />
+            </div>
+
+            <div class="form-group">
+                <label for="lang_select">Choose language:</label>
+                <select name="lang"
+                        id="lang_select"
+                        title="Language letters from which are handled and not ignored">
+                    <option value="EN"
+                            title="Letters from English alphabet (26)">
+                        English
+                    </option>
+                    <option value="RU"
+                            title="Letters from Russian alphabet (33)">
+                        Russian
+                    </option>
+                </select>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-outline-dark"
+                        asp-controller="Encrypt"
+                        asp-action="Encrypt">Encrypt</button>
+                <button class="btn btn-outline-dark"
+                        asp-controller="Encrypt"
+                        asp-action="Decrypt">Decrypt</button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
