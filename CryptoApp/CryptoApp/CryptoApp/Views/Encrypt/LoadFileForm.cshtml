@@ -59,7 +59,8 @@
 
             <div class="form-group">
                 <label for="lang_select">Choose language:</label>
-                <select name="lang"
+                <select class="form-control"
+                        name="lang"
                         id="lang_select"
                         title="Language letters from which are handled and not ignored">
                     <option value="EN"
@@ -73,11 +74,11 @@
                 </select>
             </div>
 
-            <div class="btn-group">
-                <button class="btn btn-outline-dark"
+            <div class="btn-group w-100">
+                <button class="btn btn-outline-dark w-100"
                         asp-controller="Encrypt"
                         asp-action="Encrypt">Encrypt</button>
-                <button class="btn btn-outline-dark"
+                <button class="btn btn-outline-dark w-100"
                         asp-controller="Encrypt"
                         asp-action="Decrypt">Decrypt</button>
             </div>
